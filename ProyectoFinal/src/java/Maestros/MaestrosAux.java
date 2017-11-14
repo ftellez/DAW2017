@@ -24,27 +24,14 @@ public class MaestrosAux {
     public MaestrosAux(){ }
     
     public boolean addMaestroToDB(Maestro maestro){
-        boolean isAdded = false;
-        String[][] arrMaestroParam = {maestro.getArrayValues()};
-        
+        boolean isAdded = false;        
         ManageDB database = new ManageDB();
         //this.infoBox(this.ArrToString(arrMaestroParam), maestroTabla);
-        String query = "Select nomina from maestros where nomina = ?";
-        String[] param = {maestro.getNomina()};
-        String[][] result = null;
+        Maestro maestroDB = getMaestroFromDB(maestro.getNomina());
         
-        try {
-            result = database.getQueryFromDB(query, param);
-            //Test.infoBox(result[0][0], "Ya existe.");
-        } catch (SQLException ex) {
-            Logger.getLogger(MaestrosAux.class.getName()).log(Level.SEVERE, null, ex);
-            Test.infoBox(ex.getMessage(), query);
-        }
-        
-        if(!maestro.getNomina().equals(result[0][0])){
-            isAdded = database.insertDataToDB(maestroTabla, arrMaestroParam);
-        } else {
-            //Test.infoBox("No se va a agregar", "Else.");
+        if(maestroDB != null){
+            String[][] insertMaestro = {maestro.getArrayValues()};
+            isAdded = database.insertDataToDB(maestroTabla, insertMaestro);
         }
         
         return isAdded;
@@ -54,25 +41,31 @@ public class MaestrosAux {
         boolean isUpdated = false;
         ManageDB database = new ManageDB();
         //this.infoBox(this.ArrToString(arrMaestroParam), maestroTabla);
-        String query = "Select * from maestros where nomina = ?";
-        String[] param = {maestro.getNomina()};
-        String[][] result = null;
         
-        try {
-            result = database.getQueryFromDB(query, param);
-            //Test.infoBox(result[0][0], "Ya existe.");
-        } catch (SQLException ex) {
-            Logger.getLogger(MaestrosAux.class.getName()).log(Level.SEVERE, null, ex);
-            Test.infoBox(ex.getMessage(), query);
-        }
+        Maestro maestroDB = getMaestroFromDB(maestro.getNomina());
         
-        String[][] insertMaestro = new String[1][result[0].length - 1];
-        if(maestro.getNomina().equals(result[0][1])){
-            insertMaestro[0] = maestro.getArrayValues();
+        if(maestroDB != null){
+            String[][] insertMaestro = {maestro.getArrayValues()};
+            String[] param = {maestro.getNomina()};
             isUpdated = database.updateDB(maestroTabla, insertMaestro, param);
         }
         
         return isUpdated;
+    }
+    
+    public boolean deleteMaestroFromDB(Maestro maestro){
+        ManageDB database = new ManageDB();
+        //this.infoBox(this.ArrToString(arrMaestroParam), maestroTabla);
+        boolean isDeleted = false;
+        
+        Maestro maestroDB = getMaestroFromDB(maestro.getNomina());
+        
+        if(maestroDB != null){
+            String[][] param = {{maestro.getNomina()}};
+            isDeleted = database.deleteFromDB(maestroTabla, param);
+        }
+        
+        return isDeleted;
     }
     
     public Maestro getMaestroFromDB(String nomina){
@@ -90,13 +83,17 @@ public class MaestrosAux {
             Test.infoBox(ex.getMessage(), query);
         }
         
-        Maestro maestro = new Maestro();
+        Maestro maestro = null;
         
-        maestro.setNomina(result[0][1]);
-        maestro.setNombre(result[0][2]);
-        maestro.setTelefono(result[0][3]);
-        maestro.setEmail(result[0][4]);
-        maestro.setNumCursos(Integer.parseInt(result[0][5]));
+        if(result != null){
+            maestro = new Maestro();
+            maestro.setNomina(result[0][1]);
+            maestro.setNombre(result[0][2]);
+            maestro.setTelefono(result[0][3]);
+            maestro.setEmail(result[0][4]);
+            maestro.setNumCursos(Integer.parseInt(result[0][5]));
+        } else {
+        }
         
         return maestro;
     }

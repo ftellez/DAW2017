@@ -26,7 +26,7 @@ public class ManageDB {
     
     public String[][] getQueryFromDB(String query, String[] par) throws SQLException{
         Connection conn = null;
-        String[][] arrList;
+        String[][] arrList = null;
         
         //Load the driver
         try{
@@ -559,7 +559,7 @@ public class ManageDB {
                     break;
             }
             
-            System.out.println("Deleted records from the table...");
+            System.out.println("Updated records from the table...");
 
             }catch(SQLException se){
                 //Handle errors for JDBC

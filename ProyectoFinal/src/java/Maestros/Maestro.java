@@ -32,6 +32,14 @@ public class Maestro {
         this.numCursos = cantCursos;
     }
     
+    public Maestro(Maestro maestro){
+        this.nomina = maestro.getNomina();
+        this.nombre = maestro.getNombre();
+        this.telefono = maestro.getTelefono();
+        this.email = maestro.getEmail();
+        this.numCursos = maestro.getCursos();
+    }
+    
     public void setNomina(String nom){
         this.nomina = nom;
     }
