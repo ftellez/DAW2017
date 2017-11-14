@@ -66,12 +66,38 @@ public class MaestrosAux {
             Test.infoBox(ex.getMessage(), query);
         }
         
-        String[][] insertMaestro = new String[1][result[0].length];
-        if(maestro.getNomina().equals(result[0][0])){
+        String[][] insertMaestro = new String[1][result[0].length - 1];
+        if(maestro.getNomina().equals(result[0][1])){
             insertMaestro[0] = maestro.getArrayValues();
             isUpdated = database.updateDB(maestroTabla, insertMaestro, param);
         }
         
         return isUpdated;
+    }
+    
+    public Maestro getMaestroFromDB(String nomina){
+        ManageDB database = new ManageDB();
+        //this.infoBox(this.ArrToString(arrMaestroParam), maestroTabla);
+        String query = "Select * from maestros where nomina = ?";
+        String[] param = {nomina};
+        String[][] result = null;
+        
+        try {
+            result = database.getQueryFromDB(query, param);
+            //Test.infoBox(result[0][0], "Ya existe.");
+        } catch (SQLException ex) {
+            Logger.getLogger(MaestrosAux.class.getName()).log(Level.SEVERE, null, ex);
+            Test.infoBox(ex.getMessage(), query);
+        }
+        
+        Maestro maestro = new Maestro();
+        
+        maestro.setNomina(result[0][1]);
+        maestro.setNombre(result[0][2]);
+        maestro.setTelefono(result[0][3]);
+        maestro.setEmail(result[0][4]);
+        maestro.setNumCursos(Integer.parseInt(result[0][5]));
+        
+        return maestro;
     }
 }

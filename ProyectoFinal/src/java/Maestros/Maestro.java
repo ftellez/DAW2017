@@ -16,6 +16,14 @@ public class Maestro {
     private String email;
     private int numCursos;
     
+    public Maestro(){
+        this.nomina = null;
+        this.nombre = null;
+        this.telefono = null;
+        this.email = null;
+        this.numCursos = 0;
+    }
+    
     public Maestro(String nominaNum, String nom, String numTel, String mail, int cantCursos){
         this.nomina = nominaNum;
         this.nombre = nom;
