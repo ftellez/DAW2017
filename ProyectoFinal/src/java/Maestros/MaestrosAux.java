@@ -50,4 +50,28 @@ public class MaestrosAux {
         return isAdded;
     }
     
+    public boolean modMaestroFromDB(Maestro maestro){
+        boolean isUpdated = false;
+        ManageDB database = new ManageDB();
+        //this.infoBox(this.ArrToString(arrMaestroParam), maestroTabla);
+        String query = "Select * from maestros where nomina = ?";
+        String[] param = {maestro.getNomina()};
+        String[][] result = null;
+        
+        try {
+            result = database.getQueryFromDB(query, param);
+            //Test.infoBox(result[0][0], "Ya existe.");
+        } catch (SQLException ex) {
+            Logger.getLogger(MaestrosAux.class.getName()).log(Level.SEVERE, null, ex);
+            Test.infoBox(ex.getMessage(), query);
+        }
+        
+        String[][] insertMaestro = new String[1][result[0].length];
+        if(maestro.getNomina().equals(result[0][0])){
+            insertMaestro[0] = maestro.getArrayValues();
+            isUpdated = database.updateDB(maestroTabla, insertMaestro, param);
+        }
+        
+        return isUpdated;
+    }
 }
