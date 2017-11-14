@@ -1,0 +1,54 @@
+CREATE TABLE `proyectofinal`.`maestros` (
+  `idMaestros` INT NOT NULL AUTO_INCREMENT,
+  `Nomina` VARCHAR(45) NOT NULL,
+  `NombreMaestro` VARCHAR(45) NOT NULL,
+  `Telefono` INT NULL,
+  `Email` VARCHAR(45) NULL,
+  `NoCursos` INT NOT NULL DEFAULT 0,
+  PRIMARY KEY (`idMaestros`),
+  UNIQUE INDEX `idMaestros_UNIQUE` (`idMaestros` ASC));
+  
+  CREATE TABLE `proyectofinal`.`salones` (
+  `idsalones` INT NOT NULL AUTO_INCREMENT,
+  `SalonNum` VARCHAR(45) NOT NULL,
+  `Capacidad` INT ZEROFILL NOT NULL,
+  `Admin` VARCHAR(5) NULL DEFAULT 'CS',
+  PRIMARY KEY (`idsalones`),
+  UNIQUE INDEX `idsalones_UNIQUE` (`idsalones` ASC));
+  
+  CREATE TABLE `proyectofinal`.`horario` (
+  `idhorario` INT NOT NULL AUTO_INCREMENT,
+  `Horario` VARCHAR(45) NOT NULL,
+  `claveCurso` VARCHAR(45) NULL,
+  PRIMARY KEY (`idhorario`),
+  UNIQUE INDEX `idhorario_UNIQUE` (`idhorario` ASC));
+
+  CREATE TABLE `proyectofinal`.`materias` (
+  `idmaterias` INT NOT NULL AUTO_INCREMENT,
+  `ClaveMat` VARCHAR(45) NOT NULL,
+  `NombreMat` VARCHAR(45) NOT NULL,
+  `HorasLab` INT NOT NULL DEFAULT 0,
+  PRIMARY KEY (`idmaterias`),
+  UNIQUE INDEX `idmaterias_UNIQUE` (`idmaterias` ASC));
+  
+  CREATE TABLE `proyectofinal`.`cursos` (
+  `idcursos` INT NOT NULL AUTO_INCREMENT,
+  `claveMat` VARCHAR(45) NULL,
+  `nomMaestro` VARCHAR(45) NULL,
+  `nomSalon` VARCHAR(45) NULL,
+  `numGrupo` INT NOT NULL DEFAULT 1,
+  `horario` VARCHAR(45) NULL,
+  `horarioLab` VARCHAR(45) NULL,
+  `numMaestros` INT NULL,
+  `porcentajeMaestro` INT NOT NULL DEFAULT 100,
+  `ingles` INT NOT NULL DEFAULT 0,
+  `honors` INT NOT NULL DEFAULT 0,
+  PRIMARY KEY (`idcursos`),
+  UNIQUE INDEX `idcursos_UNIQUE` (`idcursos` ASC));
+  
+  CREATE TABLE `proyectofinal`.`login` (
+  `idlogin` INT NOT NULL AUTO_INCREMENT,
+  `user` VARCHAR(45) NULL,
+  `pass` VARCHAR(45) NULL,
+  PRIMARY KEY (`idlogin`),
+  UNIQUE INDEX `idlogin_UNIQUE` (`idlogin` ASC));

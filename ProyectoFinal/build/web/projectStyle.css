@@ -1,0 +1,72 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Nov 8, 2017, 10:56:51 PM
+    Author     : usuario
+*/
+h1, h2, p, #msgLoginError{
+    text-align: center;
+    font-family: 'Karla', sans-serif;
+}
+
+#msgLoginError{
+    color: red;
+}
+
+table{
+    margin: auto;
+    font-family: 'Karla', sans-serif;
+}
+
+.button{
+    font-family: 'Karla', sans-serif;
+    background-color: #4CAF50;
+    border: 2px solid #4CAF50;;
+    color: white;
+    padding: 10px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    width: 200px;
+    margin: auto;
+    cursor: pointer;
+    transition-duration: 0.4s;
+    border-radius: 8px;
+    display: block;
+    /*margin: 8px 0px;*/
+}
+
+.addButton, .searchButton{
+    height: 25px;
+}
+
+.button:hover{
+    box-shadow: 0 6px 8px 0 rgba(0,0,0,0.24),0 10px 25px 0 rgba(0,0,0,0.19);
+    background-color: #c7ff96;
+    color: black;
+}
+
+.numBox, .textBox, .mailBox, .telBox{
+    height: 25px;
+}
+
+.menuSelect{
+    height: 30px;
+    width: 65px;
+}
+
+.numBox{
+    width: 60px;
+}
+
+.textBox, .mailBox{
+    width: 200px;
+}
+
+.tdL, #tdL{
+    text-align: right;
+}
