@@ -14,17 +14,17 @@ public class Maestro {
     private String nombre;
     private String telefono;
     private String email;
-    private int numCursos;
+    private String numCursos;
     
     public Maestro(){
-        this.nomina = null;
-        this.nombre = null;
-        this.telefono = null;
-        this.email = null;
-        this.numCursos = 0;
+        this.nomina = "";
+        this.nombre = "";
+        this.telefono = "";
+        this.email = "";
+        this.numCursos = "";
     }
     
-    public Maestro(String nominaNum, String nom, String numTel, String mail, int cantCursos){
+    public Maestro(String nominaNum, String nom, String numTel, String mail, String cantCursos){
         this.nomina = nominaNum;
         this.nombre = nom;
         this.telefono = numTel;
@@ -56,7 +56,7 @@ public class Maestro {
         this.email = mail;
     }
     
-    public void setNumCursos(int cant){
+    public void setNumCursos(String cant){
         this.numCursos = cant;
     }
     
@@ -76,12 +76,12 @@ public class Maestro {
         return this.email;
     }
     
-    public int getCursos(){
+    public String getCursos(){
         return this.numCursos;
     }
     
     public String[] getArrayValues(){
-        String[] arr = {this.nomina, this.nombre, this.telefono, this.email, Integer.toString(this.numCursos)};
+        String[] arr = {this.nomina, this.nombre, this.telefono, this.email, this.numCursos};
         return arr;
     }
 }

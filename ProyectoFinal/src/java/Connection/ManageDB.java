@@ -20,7 +20,7 @@ import java.sql.SQLException;
 public class ManageDB {
     private static String connectionString = "jdbc:mysql://localhost:3306/proyectofinal";
     private static String user = "root";
-    private static String pass = "WX&balins07";
+    private static String pass = "";
     
     public ManageDB(){}
     

@@ -16,6 +16,9 @@ import javax.servlet.http.*;
 import Login.LoginAux;
 import Maestros.Maestro;
 import Maestros.MaestrosAux;
+import Salones.Salones;
+import Salones.SalonesAux;
+import Testing.Test;
 
 /*
  * Comentarios de documentacion de una clase o interface
@@ -109,25 +112,27 @@ public class InscripcionesServlet extends HttpServlet {
             
             /************************************************
             *
-            * Esta seccion corresponde a las solicitudes Dar de alta, modificar y eliminar
+            * Esta seccion corresponde a las solicitudes Dar de alta
             *
             * ***********************************************/
             case "Dar de alta":
                 String sourceAlta = (String)request.getSession().getAttribute("solicitud");
+                //Test.infoBox(sourceAlta, "Agregar profe case");
                 switch (sourceAlta) {
                     case "agregarProfe":
                         /* Aqui van queries */
+                        //Test.infoBox("Entre a agregar profe", "Agregar profe case: ");
                         String nomina = (String)request.getParameter("nominaProfe");
                         String nomProfe = (String)request.getParameter("nomProfe");
                         String tel = (String)request.getParameter("telProfe");
                         String mail = (String)request.getParameter("mailProfe");
                         String curso = (String)request.getParameter("cantCursosProfe");
-                        Maestro maestro = new Maestro(nomina,nomProfe,tel,mail,Integer.parseInt(curso));
+                        Maestro maestro = new Maestro(nomina,nomProfe,tel,mail,curso);
                         MaestrosAux mAux = new MaestrosAux();
-                        boolean seAgrego = mAux.addMaestroToDB(maestro);
-                        if (seAgrego){
+                        boolean seAgregoProf = mAux.addMaestroToDB(maestro);
+                        if (seAgregoProf){
                             url = "/MainMenu.jsp";
-                            String msg = "Si se pudo agregar!";
+                            String msg = "Si se pudo agregar el profe!";
                             request.setAttribute("message", msg);
                             //mAux.infoBox(msg, Boolean.toString(seAgrego));
                         } else {
@@ -138,45 +143,208 @@ public class InscripcionesServlet extends HttpServlet {
                             //mAux.infoBox(msg, Boolean.toString(seAgrego));
                         }
                         break;
-                    case "agregarCurso":
-                        /* Aqui van queries */
-                        break;
                     case "agregarSalon":
+                        /* Aqui van queries */
+                        String edificio = (String)request.getParameter("edificioSalon");
+                        String aula = (String)request.getParameter("numSalon");
+                        String numSalon = edificio + aula;
+                        String capacidad = (String)request.getParameter("capacidadSalon");
+                        String dep = (String)request.getParameter("adminSalon");
+                        Salones salon = new Salones(numSalon, capacidad, dep);
+                        SalonesAux salAux = new SalonesAux();
+                        boolean seAgregoSal = salAux.addSalonToDB(salon);
+                        if (seAgregoSal){
+                            url = "/MainMenu.jsp";
+                            String msg = "Si se puedo agregar el salon!";
+                            request.setAttribute("message", msg);
+                        } else {
+                            url = "/formaSalones.jsp";
+                            String msg = "No se puedo agregar, ya existe el salon";
+                            request.setAttribute("message", msg);
+                            request.setAttribute("editarDatos", "agregar");
+                        }
+                        break;
+                    case "agregarCurso":
                         /* Aqui van queries */
                         break;
                     default:
                         break;
-                } break;           
+                }
+                break;
+                
+            /************************************************
+            *
+            * Esta seccion corresponde a las solicitudes modificar
+            *
+            * ***********************************************/
             case "Modificar":
                 String sourceModificar = (String)request.getSession().getAttribute("solicitud");
                 switch (sourceModificar) {
                     case "modificarProfe":
                         /* Aqui van queries */
+                        String nomina = (String)request.getParameter("nominaProfe");
+                        String nomProfe = (String)request.getParameter("nomProfe");
+                        String tel = (String)request.getParameter("telProfe");
+                        String mail = (String)request.getParameter("mailProfe");
+                        String curso = (String)request.getParameter("cantCursosProfe");
+                        Maestro maestro = new Maestro(nomina,nomProfe,tel,mail,curso);
+                        MaestrosAux mAux = new MaestrosAux();
+                        boolean seModificoProfe = mAux.modMaestroFromDB(maestro);
+                        if (seModificoProfe){
+                            url = "/MainMenu.jsp";
+                            String msg = "Si se pudo modificar el profe!";
+                            request.setAttribute("message", msg);
+                        }
+                        else{
+                            url = "/formaMaestros.jsp";
+                            String msg = "No se pudo modificar el profe, no existe!!";
+                            request.setAttribute("message", msg);
+                            request.setAttribute("editarDatos", "modificar");             
+                        }
                         break;
+                        
+                    case "modificarSalon":
+                        /* Aqui van queries */
+                        String edificio = (String)request.getParameter("edificioSalon");
+                        String aula = (String)request.getParameter("numSalon");
+                        String numAula = edificio + aula;
+                        String capacidad = (String)request.getParameter("capacidadSalon");
+                        String admin = (String)request.getParameter("adminSalon");
+                        Salones salon = new Salones(numAula, capacidad, admin);
+                        SalonesAux salAux = new SalonesAux();
+                        boolean seModificoSalon = salAux.modSalonFromDB(salon);
+                        if (seModificoSalon){
+                            url = "/MainMenu.jsp";
+                            String msg = "Si se pudo modificar el salon!";
+                            request.setAttribute("message", msg);
+                        }
+                        else {
+                            url = "/formaSalones.jsp";
+                            String msg = "No se pudo modificar el salon, no hay, no existe!!";
+                            request.setAttribute("message", msg);
+                            request.setAttribute("editarDatos", "modificar");
+                        }
+                        break;
+                        
                     case "modificarCurso":
                         /* Aqui van queries */
                         break;
-                    case "modificarSalon":
-                        /* Aqui van queries */
-                        break;
+                    
                     default:
                         break;
-                }break;                
+                }
+                break; 
+            /************************************************
+            *
+            * Esta seccion corresponde a las solicitudes eliminar
+            *
+            * ***********************************************/
             case "Eliminar":
                 String sourceEliminar = (String)request.getSession().getAttribute("solicitud");
                 switch (sourceEliminar) {
                     case "eliminarProfe":
                         /* Aqui van queries */
-                        break;
-                    case "eliminarCurso":
-                        /* Aqui van queries */
+                        String nomina = (String)request.getParameter("nominaProfe");
+                        Maestro maestro = new Maestro();
+                        maestro.setNomina(nomina);
+                        
+                        MaestrosAux mAux = new MaestrosAux();
+                        boolean seElimino = mAux.deleteMaestroFromDB(maestro);
+                        if (seElimino){
+                            url = "/MainMenu.jsp";
+                            String msg = "Si se pudo eliminar!";
+                            request.setAttribute("message", msg);
+                        }
+                        else{
+                            url = "/formaMaestros.jsp";
+                            String msg = "No se pudo eliminar";
+                            request.setAttribute("message", msg);
+                            request.setAttribute("editarDatos", "eliminar");             
+                        }
                         break;
                     case "eliminarSalon":
+                        /* Aqui van queries */
+                        String edificio = (String)request.getParameter("edificioSalon");
+                        String aula = (String)request.getParameter("numSalon");
+                        String numSalon = edificio + aula;
+                        Salones salon = new Salones();
+                        salon.setSalonNum(numSalon);
+                        
+                        SalonesAux salAux = new SalonesAux();
+                        boolean seEliminoSalon = salAux.deleteSalonFromDB(salon);
+                        if (seEliminoSalon){
+                            url = "/MainMenu.jsp";
+                            String msg = "Se elimino el salon";
+                            request.setAttribute("message", msg);
+                        }
+                        else{
+                            url = "/formaSalones.jsp";
+                            String msg = "No se pudo eliminar el salon, no existe!!";
+                            request.setAttribute("message", msg);
+                            request.setAttribute("editarDatos", "eliminar");
+                        }
+                        break; 
+                    case "eliminarCurso":
                         /* Aqui van queries */
                         break;
                     default:
                         break;
-                }break;           
+                }
+                break;
+            /************************************************
+            *
+            * Esta seccion es la de reportes
+            *
+            * ***********************************************/
+            case "Buscar":
+                String tipo = (String)request.getSession().getAttribute("buscar");
+                switch(tipo){
+                    case "Profe":     
+                        String nomina = (String)request.getParameter("nominaProfe");
+                        MaestrosAux profeAux = new MaestrosAux();
+                        Maestro profe = profeAux.getMaestroFromDB(nomina);
+                        if (profe != null){
+                            request.setAttribute("datosMaestro", profe);
+                        }
+                        else{
+                            String msg = "Profesor no encontrado";
+                            profe = new Maestro();
+                            profe.setNomina(nomina);
+                            request.setAttribute("datosMaestro", profe);
+                            request.setAttribute("message", msg);
+                        }
+                        request.setAttribute("editarDatos", "modificar");
+                        url = "/formaMaestros.jsp";
+                        break;
+                    case "Salon":
+                        String edificio = (String)request.getParameter("edificioSalon");
+                        String aula = (String)request.getParameter("numSalon");
+                        String numSalon = edificio + aula;
+                        SalonesAux salAux = new SalonesAux();
+                        Salones salon = salAux.getSalonFromDB(numSalon);
+                        if (salon != null){
+                            request.setAttribute("datosSalon", salon);
+                            
+                        }
+                        else {
+                            String msg = "Salon no encontrado";
+                            salon = new Salones();
+                            salon.setSalonNum(numSalon);
+                            request.setAttribute("datosSalon", salon);
+                            request.setAttribute("message", msg);
+                        }
+                        request.setAttribute("editarDatos", "modificar");
+                        url = "/formaSalones.jsp";
+                        break;
+                        
+                    case "Grupo":
+                        break;
+                    default:
+                        //Test.infoBox("No detecte nada", "Case default profe");
+                        url = "/formaMaestros.jsp";
+                        break;
+                }
+                break;
             /************************************************
             *
             * Esta seccion es la de reportes
