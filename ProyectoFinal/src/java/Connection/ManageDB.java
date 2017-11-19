@@ -20,7 +20,7 @@ import java.sql.SQLException;
 public class ManageDB {
     private static String connectionString = "jdbc:mysql://localhost:3306/proyectofinal";
     private static String user = "root";
-    private static String pass = "";
+    private static String pass = "WX&balins07";
     
     public ManageDB(){}
     
@@ -49,6 +49,7 @@ public class ManageDB {
         ResultSet rs = null;
         
         try {
+            //Test.infoBox("Query", query);
             ps = conn.prepareStatement(query);
             
             int i = 1;
@@ -80,6 +81,7 @@ public class ManageDB {
             }
         } catch (SQLException ex) {
             System.err.println("Error at prepareStatement");
+            Test.infoBox(ex.getMessage(), "getQueryFromDB()");
             ex.printStackTrace();
             arrList = new String[1][1];
             arrList[0][0] = "ERROR";
