@@ -29,7 +29,7 @@ public class MaestrosAux {
         //this.infoBox(this.ArrToString(arrMaestroParam), maestroTabla);
         Maestro maestroDB = getMaestroFromDB(maestro.getNomina());
         
-        if(maestroDB != null){
+        if(maestroDB == null){
             String[][] insertMaestro = {maestro.getArrayValues()};
             isAdded = database.insertDataToDB(maestroTabla, insertMaestro);
         }
@@ -77,7 +77,13 @@ public class MaestrosAux {
         
         try {
             result = database.getQueryFromDB(query, param);
-            //Test.infoBox(result[0][0], "Ya existe.");
+            if (nomina.equals(result[0][1])){
+                //Test.infoBox(result[0][1], "Ya existe.");
+            }
+            else{
+                result = null;
+                //Test.infoBox(result[0][1], "No existe.");
+            }
         } catch (SQLException ex) {
             Logger.getLogger(MaestrosAux.class.getName()).log(Level.SEVERE, null, ex);
             Test.infoBox(ex.getMessage(), query);
@@ -91,7 +97,7 @@ public class MaestrosAux {
             maestro.setNombre(result[0][2]);
             maestro.setTelefono(result[0][3]);
             maestro.setEmail(result[0][4]);
-            maestro.setNumCursos(Integer.parseInt(result[0][5]));
+            maestro.setNumCursos(result[0][5]);
         } else {
         }
         
